@@ -39,28 +39,28 @@ func (d *Document) AssertDataType() error {
 	return AssertionFailure
 }
 
-func (document *Document) ContentLength() int {
+func (d *Document) ContentLength() int {
 
 	buf := &bytes.Buffer{}
 	encoder := json.NewEncoder(buf)
 	encoder.SetEscapeHTML(false)
 	encoder.SetIndent("", "\t")
-	encoder.Encode(document)
+	encoder.Encode(d)
 
 	return buf.Len()
 }
 
-func (document *Document) PopIncluded() Included {
+func (d *Document) PopIncluded() Included {
 
-	var included Included = document.Included
-	document.Included = Included{}
+	i := d.Included
+	d.Included = Included{}
 
-	return included
+	return i
 }
 
-func (document *Document) Version() {
+func (d *Document) Version() {
 
-	document.JSONAPI = &Implementation{
+	d.JSONAPI = &Implementation{
 		Version: jsonapi_version,
 		Meta: map[string]interface{}{
 			"links": map[string]interface{}{
@@ -75,7 +75,7 @@ func (document *Document) Version() {
 }
 
 func New() Document {
-	var document Document
-	document.Version()
-	return document
+	var d Document
+	d.Version()
+	return d
 }

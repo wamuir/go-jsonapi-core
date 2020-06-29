@@ -10,11 +10,11 @@ type Resource struct {
 	Links LinksObject `json:"links,omitempty"`
 }
 
-func (resource Resource) Identify() Resource {
+func (r Resource) Identify() Resource {
 
 	return Resource{
-		Type:       resource.Type,
-		Identifier: resource.Identifier,
-		Meta:       resource.Meta,
+		Type:       r.Type,
+		Identifier: r.Identifier,
+		Meta:       r.Meta,
 	}
 }

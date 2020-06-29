@@ -2,47 +2,47 @@ package core
 
 type Included []Resource
 
-func (c Included) Merge(m Included) Included {
+func (i Included) Merge(c Collection) Included {
 
-	for _, r := range m {
-		c = c.MergeResource(r)
+	for _, r := range c {
+		i = i.MergeResource(r)
 	}
 
-	return c
+	return i
 
 }
 
 // Merge a resource into the collection, such as for `Included`
-func (c Included) MergeResource(r Resource) Included {
+func (i Included) MergeResource(r Resource) Included {
 
-	idx, found := c.FindIndex(r)
+	idx, found := i.FindIndex(r)
 	if !found {
-		c = append(c, r)
-		return c
+		i = append(i, r)
+		return i
 	}
 
 	for key, rel := range r.Relationships {
 
-		if _, ok := c[idx].Relationships[key]; ok {
+		if _, ok := i[idx].Relationships[key]; ok {
 			// Relationship already exists
-			if c[idx].Relationships[key].Data != nil {
+			if i[idx].Relationships[key].Data != nil {
 				// And data already exists
 				continue
 			}
 		}
 
-		c[idx].Relationships[key] = rel
+		i[idx].Relationships[key] = rel
 	}
 
-	return c
+	return i
 }
 
-func (c Included) FindIndex(r Resource) (int, bool) {
+func (i Included) FindIndex(r Resource) (int, bool) {
 
 	var idx int
-	for i := range c {
-		if c[i].Type == r.Type && c[i].Identifier == r.Identifier {
-			return i, true
+	for j := range i {
+		if i[j].Type == r.Type && i[j].Identifier == r.Identifier {
+			return j, true
 		}
 	}
 	return idx, false
