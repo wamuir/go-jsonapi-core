@@ -3,7 +3,10 @@ package core
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 )
+
+var AssertionFailure = fmt.Errorf("type assertion failed")
 
 type Document struct {
 	JSONAPI  *Implementation        `json:"jsonapi,omitempty"`
@@ -14,10 +17,26 @@ type Document struct {
 	Errors   []Error                `json:"errors,omitempty"`
 }
 
-func New() Document {
-	var document Document
-	document.Version()
-	return document
+func (d *Document) AssertDataType() error {
+
+	j, err := json.Marshal(d.Data)
+	if err != nil {
+		return err
+	}
+
+	var r Resource
+	if err = json.Unmarshal(j, &r); err == nil {
+		d.Data = r
+		return nil
+	}
+
+	var c Collection
+	if err = json.Unmarshal(j, &c); err == nil {
+		d.Data = c
+		return nil
+	}
+
+	return AssertionFailure
 }
 
 func (document *Document) ContentLength() int {
@@ -53,4 +72,10 @@ func (document *Document) Version() {
 	}
 
 	return
+}
+
+func New() Document {
+	var document Document
+	document.Version()
+	return document
 }
