@@ -2,7 +2,7 @@ package core
 
 type Included []Resource
 
-func (i Included) Merge(c Collection) Included {
+func (i Included) Merge(c Included) Included {
 
 	for _, r := range c {
 		i = i.MergeResource(r)
