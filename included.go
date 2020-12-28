@@ -47,3 +47,13 @@ func (i Included) FindIndex(r Resource) (int, bool) {
 	}
 	return idx, false
 }
+
+func (i Included) Find(r Resource) (*Resource, bool) {
+
+	idx, found := i.FindIndex(r)
+	if !found {
+		return nil, false
+	}
+
+	return &i[idx], true
+}
