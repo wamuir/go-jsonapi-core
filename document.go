@@ -50,7 +50,7 @@ func (d *Document) ContentLength() int {
 	return buf.Len()
 }
 
-func (d *Document) Size() int {
+func (d Document) Size() int {
 	return d.ContentLength()
 }
 
