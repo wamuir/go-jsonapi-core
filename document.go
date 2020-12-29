@@ -50,6 +50,10 @@ func (d *Document) ContentLength() int {
 	return buf.Len()
 }
 
+func (d *Document) Size() int {
+	return d.ContentLength()
+}
+
 func (d *Document) PopIncluded() Included {
 
 	i := d.Included
