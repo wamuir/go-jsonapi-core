@@ -66,13 +66,6 @@ func (d *Document) Version() {
 
 	d.JSONAPI = &Implementation{
 		Version: jsonapi_version,
-		Meta: map[string]interface{}{
-			"links": map[string]interface{}{
-				"self": Link{
-					Href: "http://jsonapi.org/format/1.0/",
-				},
-			},
-		},
 	}
 
 	return
